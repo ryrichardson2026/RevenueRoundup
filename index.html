@@ -75,25 +75,30 @@ nav {
 }
 .hero-bg-mark {
   position: absolute;
-  top: -20px; right: -40px;
+  top: -20px; left: 50%; transform: translateX(-50%);
   width: 340px; height: 340px;
   opacity: 0.1;
   pointer-events: none;
   user-select: none;
 }
 .hero {
-  max-width: 680px;
+  max-width: 760px;
+  margin: 0 auto;
   padding: 40px 48px 48px;
+  text-align: center;
 }
+.hero-sub { margin-left: auto; margin-right: auto; }
+.hero-ctas { justify-content: center; }
+.hero-note { text-align: center; }
 .hero-left h1 {
-  font-size: 52px; font-weight: 800; line-height: 1.08;
-  letter-spacing: -2px; color: var(--ink);
-  margin-bottom: 20px;
+  font-size: 58px; font-weight: 900; line-height: 1.05;
+  letter-spacing: -2.5px; color: var(--ink);
+  margin-bottom: 24px;
 }
 .hero-left h1 .green { color: var(--green); }
 .hero-sub {
-  font-size: 17px; font-weight: 400; color: var(--mid);
-  line-height: 1.7; max-width: 440px; margin-bottom: 14px;
+  font-size: 18px; font-weight: 500; color: var(--ink-2);
+  line-height: 1.65; max-width: 580px; margin-bottom: 14px;
 }
 .hero-note {
   font-size: 13px; color: var(--muted);
@@ -361,14 +366,10 @@ footer {
 
 <!-- HERO -->
 <div class="hero-wrap">
-  <svg class="hero-bg-mark" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <text x="50%" y="72%" dominant-baseline="middle" text-anchor="middle" font-family="'Inter','Helvetica Neue',sans-serif" font-size="220" font-weight="900" fill="#22c55e">$</text>
-  </svg>
   <div class="hero">
     <div class="hero-left">
       <h1>Turn Inactive Customers Into <span class="green">New Revenue</span></h1>
-      <p class="hero-sub">HelpHive helps businesses reactivate dormant customers and neglected leads through targeted email and SMS campaigns.</p>
-      <p class="hero-note">No paid ads.&nbsp;&nbsp;No complicated funnels.&nbsp;&nbsp;No outsourced call centers.</p>
+      <p class="hero-sub">Reactivate dormant customers and old leads with targeted email and SMS campaigns. We handle the execution — you collect the bookings.</p>
       <div class="hero-ctas">
         <a href="#cta" class="btn-green">Request CRM Opportunity Review →</a>
         <a href="#process" class="btn-outline-white">See How It Works</a>
