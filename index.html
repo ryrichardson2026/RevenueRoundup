@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HelpHive — Customer Reactivation Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:      #22c55e;
+  --green-d:    #16a34a;
+  --green-lt:   #dcfce7;
+  --navy:       #0a1628;
+  --navy-2:     #0f1f3d;
+  --ink:        #0f172a;
+  --ink-2:      #1e293b;
+  --ink-3:      #334155;
+  --mid:        #64748b;
+  --muted:      #94a3b8;
+  --border:     #e2e8f0;
+  --border-d:   #1e2d45;
+  --bg:         #ffffff;
+  --bg-2:       #f8fafc;
+  --bg-3:       #f1f5f9;
+  --f:          'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--f); color: var(--ink); background: var(--bg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  height: 64px;
+  display: flex; align-items: center;
+  padding: 0 48px;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 9px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 30px; height: 30px; background: var(--ink);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-logo-icon svg { width: 16px; height: 16px; }
+.nav-logo-name { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 13.5px; font-weight: 400; color: var(--mid); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--green); color: #fff;
+  font-size: 13.5px; font-weight: 600;
+  padding: 9px 18px; border-radius: 6px;
+  text-decoration: none; white-space: nowrap;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--green-d); }
+
+/* ── HERO ── */
+.hero-wrap {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-mark {
+  position: absolute;
+  top: -20px; right: -40px;
+  width: 340px; height: 340px;
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
+.hero {
+  max-width: 680px;
+  padding: 40px 48px 48px;
+}
+.hero-left h1 {
+  font-size: 52px; font-weight: 800; line-height: 1.08;
+  letter-spacing: -2px; color: var(--ink);
+  margin-bottom: 20px;
+}
+.hero-left h1 .green { color: var(--green); }
+.hero-sub {
+  font-size: 17px; font-weight: 400; color: var(--mid);
+  line-height: 1.7; max-width: 440px; margin-bottom: 14px;
+}
+.hero-note {
+  font-size: 13px; color: var(--muted);
+  margin-bottom: 36px; letter-spacing: 0.1px;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-green {
+  background: var(--green); color: #fff;
+  font-size: 14px; font-weight: 600;
+  padding: 12px 22px; border-radius: 6px;
+  text-decoration: none; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.btn-green:hover { background: var(--green-d); }
+.btn-outline-white {
+  background: transparent; color: var(--ink-2);
+  font-size: 14px; font-weight: 500;
+  padding: 12px 22px; border-radius: 6px;
+  text-decoration: none; border: 1px solid var(--border); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: border-color .15s, color .15s;
+  white-space: nowrap;
+}
+.btn-outline-white:hover { border-color: var(--mid); color: var(--ink); }
+
+/* Hero visual placeholder */
+.hero-visual {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 12px; font-weight: 500;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── CREDENTIAL BAR ── */
+.cred-bar {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+  padding: 16px 48px;
+}
+.cred-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.cred-label {
+  font-size: 11px; font-weight: 500; color: var(--muted);
+  letter-spacing: 0.3px; white-space: nowrap; flex-shrink: 0;
+}
+.cred-logos {
+  display: flex; align-items: center; gap: 28px;
+  overflow-x: auto; flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+.cred-logos::-webkit-scrollbar { display: none; }
+.cred-logo { height: 22px; width: auto; opacity: 0.55; flex-shrink: 0; }
+.cred-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+
+/* ── SHARED SECTION ── */
+.section {
+  max-width: 1200px; margin: 0 auto;
+  padding: 56px 48px;
+}
+.section-bg { background: var(--bg-2); }
+.section-bg .section { background: transparent; }
+hr.divider { border: none; border-top: 1px solid var(--border); }
+
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--green);
+  margin-bottom: 10px;
+}
+.section-h2 {
+  font-size: 40px; font-weight: 800; letter-spacing: -1.2px;
+  line-height: 1.1; color: var(--ink); margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 16px; font-weight: 400; color: var(--mid);
+  line-height: 1.72; max-width: 520px; margin-bottom: 36px;
+}
+
+/* ── WHAT WE DO ── */
+.what-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+.what-list { display: flex; flex-direction: column; }
+.what-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 17px 0; border-top: 1px solid var(--border);
+  font-size: 15px; font-weight: 500; color: var(--ink-2);
+}
+.what-item:last-child { border-bottom: 1px solid var(--border); }
+.what-check {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--green-lt); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.what-check svg { width: 11px; height: 11px; }
+.what-placeholder {
+  background: var(--bg-3); border: 1px solid var(--border); border-radius: 10px;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── INDUSTRIES ── */
+.ind-cards { display: flex; flex-direction: column; gap: 10px; }
+.ind-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 18px 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: box-shadow .2s;
+}
+.ind-card:hover { box-shadow: 0 4px 20px rgba(15,23,42,.07); }
+.ind-icon { flex-shrink: 0; margin-top: 2px; }
+.ind-icon svg { width: 32px; height: 32px; display: block; }
+.ind-body { flex: 1; }
+.ind-name { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; }
+.ind-sub { font-size: 12px; color: var(--muted); margin-top: 1px; margin-bottom: 10px; }
+.ind-list { list-style: none; display: flex; gap: 16px; flex-wrap: wrap; }
+.ind-list li {
+  font-size: 13px; color: var(--ink-3);
+  display: flex; align-items: center; gap: 6px;
+}
+.ind-list li::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green); flex-shrink: 0;
+}
+
+/* ── PROCESS ── */
+.process-wrap { background: var(--navy); }
+.process-wrap .section-h2 { color: #fff; }
+.process-wrap .section-sub { color: rgba(255,255,255,.45); }
+.process-wrap .section-label { color: var(--green); }
+.process-cols {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 0;
+  border: 1px solid var(--border-d); border-radius: 10px; overflow: hidden;
+}
+.process-step {
+  padding: 36px 32px;
+  border-right: 1px solid var(--border-d);
+}
+.process-step:last-child { border-right: none; }
+.step-num {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--green); color: #fff;
+  font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; flex-shrink: 0;
+}
+.process-step h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 10px; line-height: 1.35; }
+.process-step p { font-size: 13px; color: rgba(255,255,255,.4); line-height: 1.7; font-weight: 400; }
+
+/* ── PRICING ── */
+.pricing-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.price-card {
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 28px 28px; background: var(--bg);
+  transition: box-shadow .2s;
+}
+.price-card:hover { box-shadow: 0 8px 32px rgba(15,23,42,.08); }
+.price-card.featured { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+.pc-tag {
+  display: inline-block; margin-bottom: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--green); background: var(--green-lt);
+  padding: 4px 10px; border-radius: 4px;
+}
+.pc-name { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.3px; }
+.pc-price { font-size: 40px; font-weight: 800; color: var(--ink); letter-spacing: -2px; margin-bottom: 2px; line-height: 1; }
+.pc-note { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.pc-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 16px; }
+.pc-items { display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+.pc-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+.pc-check { color: var(--green); flex-shrink: 0; font-weight: 700; }
+.btn-full-green { background: var(--green); color: #fff; font-size: 14px; font-weight: 600; padding: 11px; border-radius: 6px; text-decoration: none; display: block; text-align: center; transition: background .15s; }
+.btn-full-green:hover { background: var(--green-d); }
+.btn-full-outline { background: transparent; color: var(--ink-2); font-size: 14px; font-weight: 600; padding: 11px; border-radius: 6px; text-decoration: none; display: block; text-align: center; border: 1px solid var(--border); transition: border-color .15s; }
+.btn-full-outline:hover { border-color: var(--mid); }
+
+/* ── FAQ ── */
+.faq-wrap { max-width: 760px; }
+.faq-item { border-top: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: 1px solid var(--border); }
+.faq-q {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0; text-align: left;
+  font-family: var(--f); font-size: 15px; font-weight: 600;
+  color: var(--ink); gap: 20px;
+  transition: color .15s;
+}
+.faq-q:hover { color: var(--green); }
+.faq-icon { font-size: 20px; color: var(--muted); flex-shrink: 0; line-height: 1; transition: transform .2s; }
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--green); }
+.faq-a { font-size: 14px; color: var(--mid); line-height: 1.8; padding: 0 0 16px; display: none; }
+.faq-item.open .faq-a { display: block; }
+
+/* ── FINAL CTA ── */
+.cta-section { background: var(--navy); padding: 64px 48px; text-align: center; }
+.cta-inner { max-width: 640px; margin: 0 auto; }
+.cta-inner h2 { font-size: 44px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; color: #fff; margin-bottom: 18px; }
+.cta-inner h2 span { color: var(--green); }
+.cta-inner p { font-size: 16px; color: rgba(255,255,255,.45); line-height: 1.7; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+/* ── FOOTER ── */
+footer {
+  background: #060e1c;
+  border-top: 1px solid var(--border-d);
+  padding: 40px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.footer-logo-icon { width: 24px; height: 24px; background: var(--green); border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+.footer-logo-icon svg { width: 13px; height: 13px; }
+.footer-logo-name { font-size: 14px; font-weight: 700; color: #fff; }
+.footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,.35); text-decoration: none; transition: color .15s; }
+.footer-links a:hover { color: rgba(255,255,255,.8); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,.2); }
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-wrap { padding: 56px 20px 64px; }
+  .hero { grid-template-columns: 1fr; gap: 40px; }
+  .hero-left h1 { font-size: 36px; }
+  .section { padding: 40px 20px; }
+  .section-h2 { font-size: 30px; }
+  .what-cols, .ind-cards, .pricing-cols { grid-template-columns: 1fr; gap: 16px; }
+  .ind-card { grid-template-columns: 32px 1fr; }
+  .ind-list { flex-direction: column; gap: 6px; grid-column: 1 / -1; }
+  .process-cols { grid-template-columns: 1fr 1fr; }
+  .process-step { border-right: none; border-bottom: 1px solid var(--border-d); }
+  .process-step:last-child, .process-step:nth-child(2n) { border-right: none; }
+  .cred-bar { padding: 14px 20px; }
+  .cred-logos { gap: 16px; }
+  .cta-section { padding: 64px 20px; }
+  .cta-inner h2 { font-size: 30px; }
+  footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5C4.96 1.5 2.5 3.96 2.5 7c0 1.87.93 3.52 2.35 4.5V13a.75.75 0 00.75.75h4.8a.75.75 0 00.75-.75v-1.5C12.57 10.52 13.5 8.87 13.5 7c0-3.04-2.46-5.5-5.5-5.5z" fill="white"/></svg>
+    </div>
+    <span class="nav-logo-name">HelpHive</span>
+  </a>
+  <div class="nav-links">
+    <a href="#industries">Industries</a>
+    <a href="#process">Process</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#cta" class="nav-cta">Request CRM Review</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <svg class="hero-bg-mark" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <text x="50%" y="72%" dominant-baseline="middle" text-anchor="middle" font-family="'Inter','Helvetica Neue',sans-serif" font-size="220" font-weight="900" fill="#22c55e">$</text>
+  </svg>
+  <div class="hero">
+    <div class="hero-left">
+      <h1>Turn Inactive Customers Into <span class="green">New Revenue</span></h1>
+      <p class="hero-sub">HelpHive helps businesses reactivate dormant customers and neglected leads through targeted email and SMS campaigns.</p>
+      <p class="hero-note">No paid ads.&nbsp;&nbsp;No complicated funnels.&nbsp;&nbsp;No outsourced call centers.</p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn-green">Request CRM Opportunity Review →</a>
+        <a href="#process" class="btn-outline-white">See How It Works</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- WHAT WE DO -->
+<hr class="divider">
+<div class="section">
+  <div class="section-label">What We Do</div>
+  <h2 class="section-h2">Customer Reactivation Campaigns</h2>
+  <p class="section-sub">Most businesses already have dormant customers, inactive leads, and neglected follow-up opportunities sitting inside their CRM. HelpHive helps reconnect those opportunities to measurable campaigns and booking activity.</p>
+  <div class="what-list">
+      <div class="what-item">
+        <div class="what-check"><svg viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        Inactive customers
+      </div>
+      <div class="what-item">
+        <div class="what-check"><svg viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        Old leads and cold quotes
+      </div>
+      <div class="what-item">
+        <div class="what-check"><svg viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        Seasonal re-engagement
+      </div>
+      <div class="what-item">
+        <div class="what-check"><svg viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        Booking recovery
+      </div>
+      <div class="what-item">
+        <div class="what-check"><svg viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        Loyalty campaigns
+      </div>
+    </div>
+</div>
+
+<!-- INDUSTRIES -->
+<hr class="divider">
+<div class="section-bg">
+  <div class="section" id="industries">
+    <h2 class="section-h2" style="margin-bottom:8px;">Businesses We Support</h2>
+    <p style="font-size:15px;color:var(--mid);line-height:1.7;max-width:520px;margin-bottom:48px;">We work with service businesses where customer relationships and follow-up discipline directly impact revenue.</p>
+    <div class="ind-cards">
+
+      <!-- Financial Services -->
+      <div class="ind-card">
+        <div class="ind-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="#f0fdf4"/>
+            <path d="M12 28h16M20 12v3M14 28v-7M18 28v-10M22 28v-5M26 28v-12" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="20" cy="10" r="2" fill="#16a34a" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="ind-body">
+          <div class="ind-name">Financial Services</div>
+          <div class="ind-sub">Insurance · Advisors · Brokerages</div>
+          <ul class="ind-list">
+            <li>Dormant quote requests</li>
+            <li>Lapsed policy renewals</li>
+            <li>Inactive prospects</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Home Services -->
+      <div class="ind-card">
+        <div class="ind-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="#f0fdf4"/>
+            <path d="M8 20l12-10 12 10" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13 20v9h14v-9" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="17" y="24" width="6" height="5" rx="1" stroke="#16a34a" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="ind-body">
+          <div class="ind-name">Home Services</div>
+          <div class="ind-sub">HVAC · Plumbing · Roofing · Landscaping</div>
+          <ul class="ind-list">
+            <li>Old estimates & cold bids</li>
+            <li>Seasonal re-engagement</li>
+            <li>Inactive past customers</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Health & Wellness -->
+      <div class="ind-card">
+        <div class="ind-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="#f0fdf4"/>
+            <path d="M20 30c-1-1-9-6-9-12a6 6 0 0112 0" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 30c1-1 9-6 9-12a6 6 0 00-9-5.2" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+            <path d="M16 20h8M20 16v8" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="ind-body">
+          <div class="ind-name">Health &amp; Wellness</div>
+          <div class="ind-sub">Chiro · Med Spas · Clinics · Naturopaths</div>
+          <ul class="ind-list">
+            <li>Lapsed memberships</li>
+            <li>Treatment drop-off</li>
+            <li>Rebooking & retention</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="process-wrap" id="process">
+  <div class="section">
+    <div class="section-label">Our Process</div>
+    <h2 class="section-h2">Simple Operational Process</h2>
+    <p class="section-sub" style="margin-bottom:32px;">Four steps from your customer list to active re-engagement campaigns.</p>
+    <div class="process-cols">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <h3>Export Customer Data</h3>
+        <p>Upload inactive customer lists or old leads from your CRM or scheduling system.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <h3>Launch Campaigns</h3>
+        <p>Email and SMS campaigns deployed with booking offers and re-engagement messaging.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <h3>Track Engagement</h3>
+        <p>Monitor clicks, responses, and booking activity through your existing systems.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <h3>Generate Bookings</h3>
+        <p>Reconnect dormant opportunities to measurable customer activity.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<hr class="divider">
+<div class="section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-h2">Simple Pricing</h2>
+  <p class="section-sub">Straightforward pricing with no long-term contracts required to get started.</p>
+  <div class="pricing-cols">
+    <div class="price-card featured">
+      <div class="pc-tag">Most Popular</div>
+      <div class="pc-name">Reactivation Sprint</div>
+      <div class="pc-price">$2,500</div>
+      <div class="pc-note">Starting at · one-time · 30-day campaign</div>
+      <hr class="pc-divider">
+      <div class="pc-items">
+        <div class="pc-item"><span class="pc-check">✓</span>Segmentation</div>
+        <div class="pc-item"><span class="pc-check">✓</span>Email campaigns</div>
+        <div class="pc-item"><span class="pc-check">✓</span>SMS support</div>
+        <div class="pc-item"><span class="pc-check">✓</span>Reporting</div>
+      </div>
+      <a href="#cta" class="btn-full-green">Get Started →</a>
+    </div>
+    <div class="price-card">
+      <div class="pc-tag" style="background:var(--bg-3);color:var(--mid);">Ongoing</div>
+      <div class="pc-name">Ongoing Support</div>
+      <div class="pc-price" style="font-size:34px;letter-spacing:-1px;">Custom</div>
+      <div class="pc-note">Monthly · scoped to your volume</div>
+      <hr class="pc-divider">
+      <div class="pc-items">
+        <div class="pc-item"><span class="pc-check">✓</span>Lifecycle campaigns</div>
+        <div class="pc-item"><span class="pc-check">✓</span>Seasonal promotions</div>
+        <div class="pc-item"><span class="pc-check">✓</span>Ongoing re-engagement</div>
+      </div>
+      <a href="#cta" class="btn-full-outline">Schedule a Call</a>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<hr class="divider">
+<div class="section-bg">
+  <div class="section" id="faq">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-h2">Frequently Asked Questions</h2>
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggle(this)">How do we track results?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Every campaign uses trackable links tied to your booking system. You'll see which contacts responded, clicked, and booked — not just open rates. Bookings are attributed directly to the campaign.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggle(this)">What if the campaigns don't work?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Before we start, we review your database and give you an honest read on volume and likelihood. If your list is too small or too cold, we'll tell you. The sprint is scoped to show real signal before any larger commitment.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggle(this)">Do we need new software?<span class="faq-icon">+</span></button>
+        <div class="faq-a">No. We work with your existing CRM, scheduling platform, or a basic customer list export. No new tools or integrations required to get started.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggle(this)">Do you make phone calls?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Standard campaigns use email and SMS only. Phone outreach is available as an add-on for businesses that want personal follow-up alongside automated re-engagement.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggle(this)">How do we know bookings are legitimate?<span class="faq-icon">+</span></button>
+        <div class="faq-a">All campaigns use trackable links and dedicated booking flows. Every conversion ties to a specific campaign and contact — no ambiguity about where the revenue came from.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="cta-section" id="cta">
+  <div class="cta-inner">
+    <h2>Your CRM Probably Contains <span>Untapped Revenue</span></h2>
+    <p>HelpHive helps businesses reconnect dormant customers and neglected leads to measurable campaigns and booking activity.</p>
+    <a href="mailto:hello@helphive.co" class="btn-green" style="display:inline-flex;font-size:15px;padding:14px 28px;">Request CRM Opportunity Review →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo" href="#">
+    <div class="footer-logo-icon">
+      <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1C4.01 1 2 3.01 2 5.5c0 1.56.78 2.93 1.97 3.75V10.75a.625.625 0 00.625.625h3.81a.625.625 0 00.625-.625V9.25C10.22 8.43 11 7.06 11 5.5 11 3.01 8.99 1 6.5 1z" fill="white"/></svg>
+    </div>
+    <span class="footer-logo-name">HelpHive</span>
+  </a>
+  <div class="footer-links">
+    <a href="#industries">Industries</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:hello@helphive.co">Contact</a>
+  </div>
+  <span class="footer-copy">© 2024 HelpHive.co</span>
+</footer>
+
+<script>
+function toggle(btn) {
+  btn.closest('.faq-item').classList.toggle('open');
+}
+</script>
+</body>
+</html>
